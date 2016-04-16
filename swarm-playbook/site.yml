@@ -7,7 +7,11 @@
 - hosts: ca
   user: root
   roles:
-    - certs
+    - role: certs
+      cert_email: example@example.com
+      cert_org: Example Org
+      cert_ou: Example Unit
+
 
 - hosts: swarm_managers:swarm_nodes
   user: root
