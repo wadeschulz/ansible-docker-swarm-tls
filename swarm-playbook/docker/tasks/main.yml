@@ -5,12 +5,6 @@
   - name : disable firewalld
     yum: name=firewalld state=absent
 
-  - name: install iptables
-    yum: name=iptables-services state=latest
-
-  - name : start iptables
-    service: name=iptables state=restarted enabled=yes
-
   - name: add docker repository
     template: src=docker.j2 dest=/etc/yum.repos.d/docker.repo
 
