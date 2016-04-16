@@ -1,0 +1,25 @@
+---
+- hosts: all
+  user: root
+  roles:
+    - discover
+  
+- hosts: ca
+  user: root
+  roles:
+    - certs
+
+- hosts: swarm_managers:swarm_nodes
+  user: root
+  roles:
+    - docker
+
+- hosts: swarm_managers
+  user: root
+  roles:
+    - swarm-discovery
+
+- hosts: swarm_nodes
+  user: root
+  roles:
+    - swarm-nodes
