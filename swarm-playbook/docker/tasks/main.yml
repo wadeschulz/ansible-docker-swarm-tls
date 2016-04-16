@@ -6,7 +6,7 @@
     yum: name=firewalld state=absent
 
   - name: install iptables
-    yum: name=iptables state=latest
+    yum: name=iptables-services state=latest
 
   - name : start iptables
     service: name=iptables state=restarted enabled=yes
