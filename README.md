@@ -5,5 +5,7 @@ Specify the server you would like to use to generate certificates in the [ca] gr
 
 The current playbook setup will use FQDNs for the Swarm consul, managers, and nodes. If your servers do not have a resolvable FQDN, the playbook can be updated to use host IPv4 by editing the references in the swarm-discovery and swarm-nodes tasks.
 
+```shell
 cd swarm-playbook
 ansible-playbook -i hosts -k site.yml
+```
