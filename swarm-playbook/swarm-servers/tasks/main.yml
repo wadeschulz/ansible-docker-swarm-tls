@@ -11,6 +11,6 @@
   - name: connect nodes to swarm
     shell: >
       docker run -v /var/docker/certs:/var/docker/certs:ro --name swarm-node -d swarm join
-   	  --discovery-opt kv.tlscacert=/var/docker/certs/ca.pem --discovery-opt kv.tlscert=/var/docker/certs/servercert.pem --discovery-opt kv.tlskey=/var/docker/certs/serverkey.pem
-   	  --advertise={{ansible_fqdn}}:2376 {{discovery_fqdn}}
+      --discovery-opt kv.tlscacert=/var/docker/certs/ca.pem --discovery-opt kv.tlscert=/var/docker/certs/servercert.pem --discovery-opt kv.tlskey=/var/docker/certs/serverkey.pem
+      --advertise={{ansible_fqdn}}:2376 {{discovery_fqdn}}
     when: "'swarm_nodes' in group_names"
