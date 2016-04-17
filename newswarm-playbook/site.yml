@@ -10,6 +10,8 @@
     - certs
   vars:
     - cert_email: example@example.com
+    - cert_state: NY
+    - cert_country: US
     - cert_org: Example Org
     - cert_ou: Example Unit
 

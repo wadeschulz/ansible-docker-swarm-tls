@@ -1,0 +1,41 @@
+---
+  - name: create certificate directory
+    file: path=/tmp/certs state=directory recurse=yes
+
+  - name: copy openssl configuration
+    template: src=openssl.cnf.j2 dest=/tmp/certs/openssl-ca.cnf
+
+  - name: generate CA private key
+    shell: openssl genrsa -out /tmp/certs/ca-priv-key.pem 2048
+
+  - name: generate CA public key
+    shell: openssl req -config /tmp/certs/openssl-ca.cnf -new -key /tmp/certs/ca-priv-key.pem -x509 -days 1825 -out /tmp/certs/ca.pem
+
+  - name: generate private keys
+    shell: openssl genrsa -out /tmp/certs/{{item}}-priv-key.pem 2048
+    with_inventory_hostnames: swarm_managers:swarm_nodes
+
+  - name: generate CSRs
+    shell: openssl req -subj "/CN={{item}}" -new -key /tmp/certs/{{item}}-priv-key.pem -out /tmp/certs/{{item}}.csr
+    with_inventory_hostnames: swarm_managers:swarm_nodes
+
+  - name: generate certificate
+    shell: openssl x509 -req -days 1825 -in /tmp/certs/{{item}}.csr -CA /tmp/certs/ca.pem -CAkey /tmp/certs/ca-priv-key.pem -CAcreateserial -out /tmp/certs/{{item}}-cert.pem
+    with_inventory_hostnames: swarm_managers:swarm_nodes
+
+  - name: get CA private key for safe keeping
+    fetch: src=/tmp/certs/ca-priv-key.pem dest=client-certs/ca-priv-key.pem fail_on_missing=yes flat=yes
+
+  - name: get ca public key
+    fetch: src=/tmp/certs/ca.pem dest=client-certs/ca.pem fail_on_missing=yes flat=yes
+
+  - name: get node private keys
+    fetch: src=/tmp/certs/{{item}}-priv-key.pem dest=client-certs/{{item}}-priv-key.pem fail_on_missing=yes flat=yes
+    with_inventory_hostnames: swarm_managers:swarm_nodes
+
+  - name: get node certificates
+    fetch: src=/tmp/certs/{{item}}-cert.pem dest=client-certs/{{item}}-cert.pem fail_on_missing=yes flat=yes
+    with_inventory_hostnames: swarm_managers:swarm_nodes
+
+  - name: delete certificates from CA
+    file: path=/tmp/certs state=absent
