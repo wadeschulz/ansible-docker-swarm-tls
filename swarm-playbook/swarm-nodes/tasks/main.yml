@@ -1,3 +1,0 @@
----
-  - name: connect node to swarm
-    shell: docker run -v /var/docker/certs:/var/docker/certs:ro --name swarm-node -d swarm join --discovery-opt kv.tls=true --discovery-opt kv.tlsverify=true --discovery-opt kv.tlscacert=/var/docker/certs/ca.pem --discovery-opt kv.tlscert=/var/docker/certs/servercert.pem --discovery-opt kv.tlskey=/var/docker/certs/serverkey.pem --advertise={{ansible_fqdn}}:2376 consul://{{hostvars[groups['swarm_managers'][0]]['ansible_fqdn']}}:8500
