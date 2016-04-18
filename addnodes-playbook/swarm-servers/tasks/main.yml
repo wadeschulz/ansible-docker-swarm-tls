@@ -2,6 +2,7 @@
   - name: remove existing swarm manager(s) if present
     docker:
       name: swarm-manager
+      image: swarm
       state: absent
     when: "'swarm_managers' in group_names"
 
@@ -17,6 +18,7 @@
   - name: remove existing swarm node(s) if present
     docker:
       name: swarm-node
+      image: swarm
       state: absent
     when: "'swarm_nodes' in group_names"
 
