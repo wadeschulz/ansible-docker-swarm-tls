@@ -30,7 +30,7 @@
     file: path=/etc/systemd/system/docker.service.d state=directory recurse=yes
 
   - name : copy docker config
-    template: src=docker.conf.j2 dest=/etc/systemd/system/docker.service.d/docker.conf
+    template: src={{docker_conf}} dest=/etc/systemd/system/docker.service.d/docker.conf
 
   - name: reload systemctl daemons
     shell: systemctl daemon-reload
