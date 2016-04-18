@@ -6,7 +6,7 @@
     copy: src=client-certs/ca-priv-key.pem dest=/tmp/certs/ca-priv-key.pem
 
   - name: copy existing CA public key
-    shell: src=client-certs/ca.pem dest=/tmp/certs/ca.pem
+    copy: src=client-certs/ca.pem dest=/tmp/certs/ca.pem
 
   - name: generate private keys
     shell: openssl genrsa -out /tmp/certs/{{item}}-priv-key.pem 2048
