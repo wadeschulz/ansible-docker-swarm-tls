@@ -2,14 +2,11 @@
   - name: create certificate directory
     file: path=/tmp/certs state=directory recurse=yes
 
-  - name: copy openssl configuration
-    template: src=openssl.cnf.j2 dest=/tmp/certs/openssl-ca.cnf
+  - name: copy existing CA private key
+    copy: src=client-certs/ca-priv-key.pem dest=/tmp/certs/ca-priv-key.pem
 
-  - name: genereate CA private key
-    shell: openssl genrsa -out /tmp/certs/ca-priv-key.pem 2048
-
-  - name: generate CA public key
-    shell: openssl req -config /tmp/certs/openssl-ca.cnf -new -key /tmp/certs/ca-priv-key.pem -x509 -days 1825 -out /tmp/certs/ca.pem
+  - name: copy existing CA public key
+    copy: src=client-certs/ca.pem dest=/tmp/certs/ca.pem
 
   - name: generate private keys
     shell: openssl genrsa -out /tmp/certs/{{item}}-priv-key.pem 2048
