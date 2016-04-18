@@ -1,4 +1,10 @@
 ---
+  - name: remove existing swarm manager(s) if present
+    docker:
+      name: swarm-manager
+      state: absent
+    when: "'swarm_managers' in group_names"
+
   - name: deploy swarm manager(s)
     shell: >
       docker run -d -p 3376:3376 -v /var/docker/certs:/var/docker/certs:ro
@@ -8,7 +14,13 @@
       -H :3376 --replication --advertise={{ansible_fqdn}}:3376 {{discovery_fqdn}}
     when: "'swarm_managers' in group_names"
 
-  - name: connect nodes to swarm
+  - name: remove existing swarm node(s) if present
+    docker:
+      name: swarm-node
+      state: absent
+    when: "'swarm_nodes' in group_names"
+
+  - name: connect node(s) to swarm
     shell: >
       docker run -v /var/docker/certs:/var/docker/certs:ro --name swarm-node -d swarm join
       --discovery-opt kv.tlscacert=/var/docker/certs/ca.pem --discovery-opt kv.tlscert=/var/docker/certs/servercert.pem --discovery-opt kv.tlskey=/var/docker/certs/serverkey.pem
