@@ -1,5 +1,15 @@
-# ansible-docker-swarm-tls
+# ansible-docker-swarm-tls Readme
 Ansible Playbooks to Deploy Docker Swarm with TLS (including certificate creation)
+
+# Configuration Settings
+
+There are a few settings that can be configured in site.yml:
+* Certificate metadata
+* discovery_fqdn: defaults to consul discovery service, can be commented out and replaced with existing service (ie zookeeper)
+* docker_conf: filename for docker configuration template in docker/templates directory. Defaults to standard settings with discovery info
+** An additional config file, docker.devicemapper.conf.j2, is also present that uses the devicemapper storage opt with a default thinpool path of docker-thinpool
+
+# Deploy New Swarm
 
 '''Currently runs only on CentOS'''
 
@@ -12,7 +22,9 @@ cd newswarm-playbook
 ansible-playbook -i hosts -k site.yml
 ```
 
-To deploy additional nodes, make sure that the CA's private key is in the client-certs subdirectory of the playbook.
+# Deploy New Nodes
+
+To deploy additional nodes, make sure that the CA's private and public key are in the client-certs subdirectory of the playbook.
 
 ```shell
 cd addnode-playbook
