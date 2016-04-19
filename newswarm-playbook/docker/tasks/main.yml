@@ -1,9 +1,18 @@
 ---
-  - name : Update yum packages
+  - name: Update yum packages
     yum: name=* state=latest
 
-  - name : disable firewalld
+  - name: disable firewalld
     yum: name=firewalld state=absent
+
+  - name: install iptables service
+    yum: name=iptables-services state=latest
+
+  - name: start iptables
+    service: name=iptables state=restarted enabled=yes
+
+  - name: clear iptables rules
+    shell: iptables -F && service iptables save
 
   - name: add docker repository
     template: src=docker.j2 dest=/etc/yum.repos.d/docker.repo
