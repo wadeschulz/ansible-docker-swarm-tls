@@ -15,22 +15,25 @@
     - cert_org: Example Org
     - cert_ou: Example Unit
 
-- hosts: swarm_discovery
+- hosts: swarm_discovery:swarm_managers:swarm_nodes
   user: root
   roles:
     - docker
-    - swarm-discovery
-  vars:
-    - docker_conf: docker.devicemapper.conf.j2
-    #- docker_conf: docker.conf.j2
-
-- hosts: swarm_managers:swarm_nodes
-  user: root
-  roles:
-    - docker
-    - swarm-servers
   vars:
     - discovery_fqdn: consul://{{hostvars[groups['swarm_discovery'][0]]['ansible_fqdn']}}:8500
     - docker_conf: docker.devicemapper.conf.j2
     #- discovery_fqdn: zk://node1:port,node2:port/optionalpath
     #- docker_conf: docker.conf.j2
+
+- hosts: swarm_discovery
+  user: root
+  roles:
+    - swarm-discovery
+  
+- hosts: swarm_managers:swarm_nodes
+  user: root
+  roles:
+    - swarm-servers
+  vars:
+    - discovery_fqdn: consul://{{hostvars[groups['swarm_discovery'][0]]['ansible_fqdn']}}:8500
+    #- discovery_fqdn: zk://node1:port,node2:port/optionalpath
