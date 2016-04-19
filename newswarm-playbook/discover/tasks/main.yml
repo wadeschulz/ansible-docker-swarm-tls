@@ -1,3 +1,6 @@
 ---
-  - name : ping for discovery
-    ping:
+  - name: install libselinux
+    yum: name=libselinux-python state=latest
+
+  - name: disable selinux
+    selinux: state=disabled
