@@ -7,7 +7,7 @@ There are a few settings that can be configured in site.yml:
 * Certificate metadata
 * discovery_fqdn: defaults to consul discovery service, can be commented out and replaced with existing service (ie zookeeper)
 * docker_conf: filename for docker configuration template in docker/templates directory. Defaults to standard settings with discovery info
-** An additional config file, docker.devicemapper.conf.j2, is also present that uses the devicemapper storage opt with a default thinpool path of docker-thinpool
+	* An additional config file, docker.devicemapper.conf.j2, is also present that uses the devicemapper storage opt with a default thinpool path of docker-thinpool
 
 # Deploy New Swarm
 
