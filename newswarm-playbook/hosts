@@ -1,5 +1,8 @@
 [ca]
 
+#include thinpool= for each host and set to the
+#vg-lv name of the docker thinpool if using devicemapper
+#recommend docker-thinpool to standardize (set as default)
 [swarm_discovery]
 
 [swarm_managers]
